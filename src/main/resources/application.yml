@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: kafka-consumer
+  kafka:
+    consumer:
+      group-id: example-group
+      auto-offset-reset: earliest
+
+server:
+  port: 8081
