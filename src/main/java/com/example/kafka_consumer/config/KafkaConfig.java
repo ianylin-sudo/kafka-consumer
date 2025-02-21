@@ -7,20 +7,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import reactor.kafka.receiver.ReceiverOptions;
 
-import java.util.Collections;
-
 @Configuration
 @RequiredArgsConstructor
 public class KafkaConfig {
-    private final KafkaProperties kafkaProperties;
+  private final KafkaProperties kafkaProperties;
+  private final KafkaTopicConfig topicConfig;
 
-    @Bean
-    public ReactiveKafkaConsumerTemplate<String, String> reactiveKafkaConsumerTemplate() {
-        ReceiverOptions<String, String> receiverOptions =
-                ReceiverOptions
-                        .<String, String>create(kafkaProperties.buildConsumerProperties())
-                        .subscription(Collections.singletonList("test-topic"));
+  @Bean
+  public ReactiveKafkaConsumerTemplate<String, String> reactiveKafkaConsumerTemplate() {
+    ReceiverOptions<String, String> receiverOptions =
+        ReceiverOptions.<String, String>create(kafkaProperties.buildConsumerProperties())
+            .subscription(topicConfig.getTopics());
 
-        return new ReactiveKafkaConsumerTemplate<>(receiverOptions);
-    }
+    return new ReactiveKafkaConsumerTemplate<>(receiverOptions);
+  }
 }
